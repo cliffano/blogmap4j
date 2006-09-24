@@ -27,7 +27,7 @@ public class BlogMap4JTest extends TestCase {
         mResponseParser = mDataFixture.createMockResponseParser();
     }
 
-    public void testSuccessfulGetBlogMapViaLiveService() {
+    public void testGetBlogMapViaLiveService() {
         mBlogMap4J = new BlogMap4J();
         try {
             Response response = mBlogMap4J.getBlogMap(
@@ -38,7 +38,7 @@ public class BlogMap4JTest extends TestCase {
         }
     }
 
-    public void testSuccessfulSearchByPlaceViaLiveService() {
+    public void testSearchByPlaceViaLiveService() {
         mBlogMap4J = new BlogMap4J();
         try {
             Response response = mBlogMap4J.search("redmond,wa", null, null, null,
@@ -49,7 +49,7 @@ public class BlogMap4JTest extends TestCase {
         }
     }
 
-    public void testSuccessfulSearchByCoordinateViaLiveService() {
+    public void testSearchByCoordinateViaLiveService() {
         mBlogMap4J = new BlogMap4J();
         try {
             Response response = mBlogMap4J.search(null, new Double(47),
@@ -84,7 +84,7 @@ public class BlogMap4JTest extends TestCase {
         }
     }
 
-    public void testGetBlogMapSuccessViaMockService() {
+    public void testGetBlogMapViaMockService() {
         mServiceManager = mDataFixture.createMockServiceManager(false);
         mBlogMap4J = new BlogMap4J(mServiceManager, mResponseParser);
         try {
@@ -96,7 +96,7 @@ public class BlogMap4JTest extends TestCase {
         }
     }
 
-    public void testSearchSuccessViaMockService() {
+    public void testSearchViaMockService() {
         mServiceManager = mDataFixture.createMockServiceManager(false);
         mBlogMap4J = new BlogMap4J(mServiceManager, mResponseParser);
         try {
@@ -108,7 +108,7 @@ public class BlogMap4JTest extends TestCase {
         }
     }
 
-    public void testSearchSuccessWithProxyViaMockService() {
+    public void testSearchWithProxyViaMockService() {
         mServiceManager = mDataFixture.createMockServiceManager(true);
         mBlogMap4J = new BlogMap4J(mServiceManager, mResponseParser);
         try {
@@ -122,7 +122,7 @@ public class BlogMap4JTest extends TestCase {
         }
     }
 
-    public void testSearchSuccessWithAuthenticatedProxyViaMockService() {
+    public void testSearchWithAuthenticatedProxyViaMockService() {
         mServiceManager = mDataFixture.createMockServiceManager(true);
         mBlogMap4J = new BlogMap4J(mServiceManager, mResponseParser);
         try {
