@@ -3,30 +3,32 @@ package com.mbledug.blogmap4j;
 import java.util.Iterator;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import com.mbledug.blogmap4j.exception.BlogMap4JException;
 import com.mbledug.blogmap4j.model.Blog;
 import com.mbledug.blogmap4j.model.Coordinate;
 import com.mbledug.blogmap4j.model.Location;
 import com.mbledug.blogmap4j.model.Point;
 import com.mbledug.blogmap4j.model.Response;
-
-import junit.framework.TestCase;
+import com.mbledug.blogmap4j.util.DataFixture;
+import com.mbledug.blogmap4j.util.ResponseParser;
+import com.mbledug.blogmap4j.util.ServiceManager;
 
 public class BlogMap4JTest extends TestCase {
 
-    private static final String INVALID_PROXY_HOST = "http://blahblahblah";
-    private static final int DUMMY_PROXY_PORT = 8080;
-    private static final String DUMMY_PROXY_USERNAME = "someusername";
-    private static final String DUMMY_PROXY_PASSWORD = "somepassword";
-
     private BlogMap4J mBlogMap4J;
+    private ServiceManager mServiceManager;
+    private ResponseParser mResponseParser;
+    private DataFixture mDataFixture;
 
     protected void setUp() {
-        mBlogMap4J = new BlogMap4J();
+        mDataFixture = new DataFixture();
+        mResponseParser = mDataFixture.createMockResponseParser();
     }
 
-    public void testGetBlogMapSuccess() {
-
+    public void testSuccessfulGetBlogMapViaLiveService() {
+        mBlogMap4J = new BlogMap4J();
         try {
             Response response = mBlogMap4J.getBlogMap(
                         "http://www.csthota.com/blog/rss.aspx", new Integer(80), new Integer(80));
@@ -36,19 +38,8 @@ public class BlogMap4JTest extends TestCase {
         }
     }
 
-    public void testGetBlogMapFailure() {
-
-        try {
-            Response response = mBlogMap4J.getBlogMap(null, null, null);
-            fail("Test with null feed should have failed at this point. " +
-                    "Unexpected response: " + response);
-        } catch (BlogMap4JException bme) {
-            // BlogMap4JException is thrown as expected
-        }
-    }
-
-    public void testSearchSuccessWithPlace() {
-
+    public void testSuccessfulSearchByPlaceViaLiveService() {
+        mBlogMap4J = new BlogMap4J();
         try {
             Response response = mBlogMap4J.search("redmond,wa", null, null, null,
                     null, null, null);
@@ -58,8 +49,8 @@ public class BlogMap4JTest extends TestCase {
         }
     }
 
-    public void testSearchSuccessWithLatLonCount() {
-
+    public void testSuccessfulSearchByCoordinateViaLiveService() {
+        mBlogMap4J = new BlogMap4J();
         try {
             Response response = mBlogMap4J.search(null, new Double(47),
                     new Double(-122), null, new Integer(10), null, null);
@@ -69,8 +60,19 @@ public class BlogMap4JTest extends TestCase {
         }
     }
 
-    public void testSearchFailure() {
+    public void testGetBlogMapGivesBlogMap4JExceptionViaLiveService() {
+        mBlogMap4J = new BlogMap4J();
+        try {
+            Response response = mBlogMap4J.getBlogMap(null, null, null);
+            fail("Test with null feed should have failed at this point. " +
+                    "Unexpected response: " + response);
+        } catch (BlogMap4JException bme) {
+            // BlogMap4JException is thrown as expected
+        }
+    }
 
+    public void testSearchGivesBlogMap4JExceptionViaLiveService() {
+        mBlogMap4J = new BlogMap4J();
         try {
             Response response = mBlogMap4J.search("melbourne, australia", null,
                     null, new Double(88), new Integer(20), new Integer(100),
@@ -82,33 +84,55 @@ public class BlogMap4JTest extends TestCase {
         }
     }
 
-    public void testProxyFailure() {
-
+    public void testGetBlogMapSuccessViaMockService() {
+        mServiceManager = mDataFixture.createMockServiceManager(false);
+        mBlogMap4J = new BlogMap4J(mServiceManager, mResponseParser);
         try {
-            mBlogMap4J.setProxy(INVALID_PROXY_HOST, DUMMY_PROXY_PORT);
-            Response response = mBlogMap4J.search("melbourne, australia", null,
-                    null, new Double(88), new Integer(20), new Integer(100),
-                    new Integer(999999));
-            fail("Test with invalid proxy should have failed at this point. " +
-                    "Unexpected response: " + response);
+            Response response = mBlogMap4J.getBlogMap(
+                        "http://www.csthota.com/blog/rss.aspx", new Integer(80), new Integer(80));
+            assertResponse(response);
         } catch (BlogMap4JException bme) {
-            // BlogMap4JException is thrown as expected
+            fail("BlogMap4JException should not occur: " + bme.getMessage());
         }
     }
 
-    public void testAuthenticatedProxyFailure() {
-
+    public void testSearchSuccessViaMockService() {
+        mServiceManager = mDataFixture.createMockServiceManager(false);
+        mBlogMap4J = new BlogMap4J(mServiceManager, mResponseParser);
         try {
-            mBlogMap4J.setProxy(
-                    INVALID_PROXY_HOST, DUMMY_PROXY_PORT,
-                    DUMMY_PROXY_USERNAME, DUMMY_PROXY_PASSWORD);
+            Response response = mBlogMap4J.search("redmond,wa", null, null, null,
+                    null, null, null);
+            assertResponse(response);
+        } catch (BlogMap4JException bme) {
+            fail("BlogMap4JException should not occur: " + bme.getMessage());
+        }
+    }
+
+    public void testSearchSuccessWithProxyViaMockService() {
+        mServiceManager = mDataFixture.createMockServiceManager(true);
+        mBlogMap4J = new BlogMap4J(mServiceManager, mResponseParser);
+        try {
+            mBlogMap4J.setProxy(DataFixture.DUMMY_PROXY_HOST, DataFixture.DUMMY_PROXY_PORT);
             Response response = mBlogMap4J.search("melbourne, australia", null,
                     null, new Double(88), new Integer(20), new Integer(100),
                     new Integer(999999));
-            fail("Test with invalid authenticated proxy should have failed at this point. " +
-                    "Unexpected response: " + response);
+            assertResponse(response);
         } catch (BlogMap4JException bme) {
-            // BlogMap4JException is thrown as expected
+            fail("BlogMap4JException should not occur: " + bme.getMessage());
+        }
+    }
+
+    public void testSearchSuccessWithAuthenticatedProxyViaMockService() {
+        mServiceManager = mDataFixture.createMockServiceManager(true);
+        mBlogMap4J = new BlogMap4J(mServiceManager, mResponseParser);
+        try {
+            mBlogMap4J.setProxy(DataFixture.DUMMY_PROXY_HOST, DataFixture.DUMMY_PROXY_PORT, DataFixture.DUMMY_PROXY_USERNAME, DataFixture.DUMMY_PROXY_PASSWORD);
+            Response response = mBlogMap4J.search("melbourne, australia", null,
+                    null, new Double(88), new Integer(20), new Integer(100),
+                    new Integer(999999));
+            assertResponse(response);
+        } catch (BlogMap4JException bme) {
+            fail("BlogMap4JException should not occur: " + bme.getMessage());
         }
     }
 

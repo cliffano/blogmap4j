@@ -4,6 +4,11 @@
     <title>Changes</title>
   </properties>
   <body>
+    <release version="0.3-SNAPSHOT" date="current">
+      <action type="update" dev="cliffano">
+        Refactored unit tests, introduced mock objects. Added constructors to BlogMap4J and ServiceManager.
+      </action>
+    </release>
     <release version="0.2" date="04-06-2006">
       <action type="add" dev="cliffano">
         Upgraded build to use Maven2. Refactored the code base. Added more unit tests.

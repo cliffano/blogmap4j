@@ -34,7 +34,10 @@ import java.util.Map;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -54,10 +57,29 @@ public class ServiceManagerImpl implements ServiceManager {
     private HttpClient mHttpClient;
 
     /**
-     * Create a ServiceManager instance. Initialise HttpClient instance.
+     * Method used to make the connection to BlogMap service.
+     */
+    private HttpMethod mHttpMethod;
+
+    /**
+     * Create a ServiceManager instance, initialise HttpClient and HttpMethod.
      */
     public ServiceManagerImpl() {
         mHttpClient = new HttpClient();
+        mHttpMethod = new GetMethod();
+    }
+
+    /**
+     * Create a ServiceManager instance with specified HttpClient and
+     * HttpMethod.
+     * @param httpClient the http client
+     * @param httpMethod the http method
+     */
+    public ServiceManagerImpl(
+            final HttpClient httpClient,
+            final HttpMethod httpMethod) {
+        mHttpClient = httpClient;
+        mHttpMethod = httpMethod;
     }
 
     /**
@@ -95,24 +117,24 @@ public class ServiceManagerImpl implements ServiceManager {
      * @param params the parameters to be added to the url
      * @return the response String
      * @throws BlogMap4JException when there's a problem with retrieving the
-     *             response from BlogMap service or when the encoding is not
-     *             supported
+     *             xml string response from BlogMap service.
      */
     public final String execute(final String url, final Map params)
             throws BlogMap4JException {
 
-        GetMethod method = new GetMethod(url);
-        method.setFollowRedirects(true);
-
-        if (!params.isEmpty()) {
-            method.setQueryString(convertMapToNameValuePairArray(params));
+        try {
+            mHttpMethod.setURI(new URI(url, true));
+        } catch (URIException urie) {
+            throw new BlogMap4JException("Unable to get xml response string "
+                    + "due to invalid url: " + url, urie);
         }
+        mHttpMethod.setFollowRedirects(true);
+        mHttpMethod.setQueryString(convertMapToNameValuePairArray(params));
 
         String response = null;
-
         try {
-            mHttpClient.executeMethod(method);
-            response = method.getResponseBodyAsString();
+            mHttpClient.executeMethod(mHttpMethod);
+            response = mHttpMethod.getResponseBodyAsString();
         } catch (HttpException he) {
             throw new BlogMap4JException(
                     "Unable to get xml response string",
@@ -122,7 +144,7 @@ public class ServiceManagerImpl implements ServiceManager {
                     "Unable to get xml response string",
                     ioe);
         } finally {
-            method.releaseConnection();
+            mHttpMethod.releaseConnection();
         }
 
         return response;

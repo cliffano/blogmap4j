@@ -91,6 +91,19 @@ public class BlogMap4J {
     }
 
     /**
+     * Create an instance of BlogMap4J with specified ServiceManager and
+     * ResponseParser.
+     * @param serviceManager the service manager
+     * @param responseParser the response parser
+     */
+    public BlogMap4J(
+            final ServiceManager serviceManager,
+            final ResponseParser responseParser) {
+        mServiceManager = serviceManager;
+        mResponseParser = responseParser;
+    }
+
+    /**
      * Sets proxy details.
      * @param proxyHost proxy host name
      * @param proxyPort proxy port number

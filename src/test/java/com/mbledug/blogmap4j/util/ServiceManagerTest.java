@@ -1,75 +1,104 @@
 package com.mbledug.blogmap4j.util;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mbledug.blogmap4j.exception.BlogMap4JException;
-import com.mbledug.blogmap4j.util.ServiceManager;
-import com.mbledug.blogmap4j.util.ServiceManagerImpl;
-
 import junit.framework.TestCase;
 
-public class ServiceManagerTest extends TestCase {
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpMethod;
 
-    private static final String FEED = "http://www.csthota.com/blog/rss.aspx";
-    private static final String METHOD_GET_BLOG_MAP = "blogmap.getblogmap";
-    private static final String INVALID_SERVICE_URL = "http://blahblahblah";
-    private static final String VALID_SERVICE_URL = "http://www.feedmap.net/blogmap/services/rest.ashx";
-    private static final String INVALID_PROXY_HOST = "http://blahblahblah";
-    private static final int DUMMY_PROXY_PORT = 8080;
-    private static final String DUMMY_PROXY_USERNAME = "someusername";
-    private static final String DUMMY_PROXY_PASSWORD = "somepassword";
+import com.mbledug.blogmap4j.exception.BlogMap4JException;
+
+public class ServiceManagerTest extends TestCase {
 
     private ServiceManager mServiceManager;
     private Map mParams;
 
-    protected void setUp() {
-        mServiceManager = new ServiceManagerImpl();
+    private DataFixture mDataFixture;
+    private HttpClient mMockHttpClient;
+    private HttpMethod mMockHttpMethod;
 
+    protected void setUp() {
+        mDataFixture = new DataFixture();
         mParams = new HashMap();
-        mParams.put("method", METHOD_GET_BLOG_MAP);
-        mParams.put("feed", FEED);
     }
 
-    public void testExecuteSuccess() {
+    public void testExecuteSuccessWithNonEmptyParams() {
+        mParams.put("method", DataFixture.METHOD_GET_BLOG_MAP);
+        mParams.put("feed", DataFixture.FEED);
+        mMockHttpClient = mDataFixture.createMockHttpClient(false, null);
+        mMockHttpMethod = mDataFixture.createMockHttpMethod(DataFixture.VALID_SERVICE_URL);
+        mServiceManager = new ServiceManagerImpl(mMockHttpClient, mMockHttpMethod);
         try {
-            String response = mServiceManager.execute(VALID_SERVICE_URL, mParams);
+            String response = mServiceManager.execute(DataFixture.VALID_SERVICE_URL, mParams);
             assertNotNull(response);
         } catch (BlogMap4JException bme) {
             fail("BlogMap4JException should not occur: " + bme.getMessage());
         }
     }
 
-    public void testExecuteFailureInvalidServiceUrl() {
+    public void testExecuteSuccessWithEmptyParams() {
+        mMockHttpClient = mDataFixture.createMockHttpClient(false, null);
+        mMockHttpMethod = mDataFixture.createMockHttpMethod(DataFixture.VALID_SERVICE_URL);
+        mServiceManager = new ServiceManagerImpl(mMockHttpClient, mMockHttpMethod);
         try {
-            mServiceManager.execute(INVALID_SERVICE_URL, mParams);
+            String response = mServiceManager.execute(DataFixture.VALID_SERVICE_URL, mParams);
+            assertNotNull(response);
+        } catch (BlogMap4JException bme) {
+            fail("BlogMap4JException should not occur: " + bme.getMessage());
+        }
+    }
+
+    public void testExecuteFailureWithInvalidServiceUrlGivesBlogMap4JException() {
+        mMockHttpClient = mDataFixture.createMockHttpClient(false, null);
+        mMockHttpMethod = mDataFixture.createMockHttpMethod(DataFixture.INVALID_SERVICE_URL);
+        mServiceManager = new ServiceManagerImpl(mMockHttpClient, mMockHttpMethod);
+        try {
+            mServiceManager.execute(DataFixture.INVALID_SERVICE_URL, mParams);
             fail("Test with invalid service url should have failed at this point.");
         } catch (BlogMap4JException bme) {
             // BlogMap4JException is thrown as expected
         }
     }
 
-    public void testExecuteFailureInvalidProxy() {
+    public void testExecuteFailureWithHttpClientThrowingHttpExceptionGivesBlogMap4JException() {
+        mMockHttpClient = mDataFixture.createMockHttpClient(false, new HttpException());
+        mMockHttpMethod = mDataFixture.createMockHttpMethod(DataFixture.VALID_SERVICE_URL);
+        mServiceManager = new ServiceManagerImpl(mMockHttpClient, mMockHttpMethod);
         try {
-            mServiceManager.setProxy(INVALID_PROXY_HOST, DUMMY_PROXY_PORT);
-            mServiceManager.execute(VALID_SERVICE_URL, mParams);
-            fail("Test with invalid proxy should have failed at this point.");
+            mServiceManager.execute(DataFixture.VALID_SERVICE_URL, mParams);
+            fail("Test with invalid service url should have failed at this point.");
         } catch (BlogMap4JException bme) {
             // BlogMap4JException is thrown as expected
         }
     }
 
-    public void testExecuteFailureInvalidAuthenticatedProxy() {
+    public void testExecuteFailureWithHttpClientThrowingIoExceptionGivesBlogMap4JException() {
+        mMockHttpClient = mDataFixture.createMockHttpClient(false, new IOException());
+        mMockHttpMethod = mDataFixture.createMockHttpMethod(DataFixture.VALID_SERVICE_URL);
+        mServiceManager = new ServiceManagerImpl(mMockHttpClient, mMockHttpMethod);
         try {
-            mServiceManager.setProxy(
-                    INVALID_PROXY_HOST,
-                    DUMMY_PROXY_PORT,
-                    DUMMY_PROXY_USERNAME,
-                    DUMMY_PROXY_PASSWORD);
-            mServiceManager.execute(VALID_SERVICE_URL, mParams);
-            fail("Test with invalid authenticated proxy should have failed at this point.");
+            mServiceManager.execute(DataFixture.VALID_SERVICE_URL, mParams);
+            fail("Test with invalid service url should have failed at this point.");
         } catch (BlogMap4JException bme) {
             // BlogMap4JException is thrown as expected
+        }
+    }
+
+    public void testExecuteSuccessWithProxy() {
+        mMockHttpClient = mDataFixture.createMockHttpClient(true, null);
+        mMockHttpMethod = mDataFixture.createMockHttpMethod(DataFixture.VALID_SERVICE_URL);
+        mServiceManager = new ServiceManagerImpl(mMockHttpClient, mMockHttpMethod);
+
+        try {
+            mServiceManager.setProxy(DataFixture.DUMMY_PROXY_HOST, DataFixture.DUMMY_PROXY_PORT, DataFixture.DUMMY_PROXY_USERNAME, DataFixture.DUMMY_PROXY_PASSWORD);
+            String response = mServiceManager.execute(DataFixture.VALID_SERVICE_URL, mParams);
+            assertNotNull(response);
+        } catch (BlogMap4JException bme) {
+            fail("BlogMap4JException should not occur: " + bme.getMessage());
         }
     }
 }

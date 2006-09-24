@@ -1,21 +1,11 @@
 package com.mbledug.blogmap4j.util;
 
-import com.mbledug.blogmap4j.exception.BlogMap4JException;
-import com.mbledug.blogmap4j.model.Response;
-import com.mbledug.blogmap4j.util.ResponseParser;
-import com.mbledug.blogmap4j.util.ResponseParserImpl;
-
 import junit.framework.TestCase;
 
-public class ResponseParserTest extends TestCase {
+import com.mbledug.blogmap4j.exception.BlogMap4JException;
+import com.mbledug.blogmap4j.model.Response;
 
-    private static final String INVALID_XML = "blahblahblah";
-    private static final String XML_FAILURE_RESPONSE = "<rsp stat=\"500\"><err message=\"Input feed does not exist in blogmap service.\"/></rsp>";
-    private static final String XML_SUCCESS_RESPONSE = "<rsp stat=\"200\"><map><mapurl>http://renderv318.mappoint.net/render-30/getmap.aspx?key=4483BB03CE3FB25C7E21</mapurl></map>" +
-            "<blogs count=\"2\"><blog id=\"1\" name=\"Chandu Thota\" xmlurl=\"http://www.csthota.com/blog/rss.aspx\" url=\"http://www.csthota.com/blog/\" coords=\"109,19,125,35\"><location><latitude>47.6785794635701</latitude><longitude>-122.13084477543</longitude><city>Redmond</city><div>Washington</div><region>United States</region></location></blog>" +
-            "<blog id=\"2\" name=\"Chandu Thota\" xmlurl=\"http://www.csthota.com/blog/rss.aspx\" url=\"http://www.csthota.com/blog/\" coords=\"109,19,125,35\"><location><latitude>47.6785794635701</latitude><longitude>-122.13084477543</longitude><city>Redmond</city><div>Washington</div><region>United States</region></location></blog></blogs></rsp>";
-    private static final String XML_SUCCESS_RESPONSE_WITHOUT_BLOGS = "<rsp stat=\"200\"><map><mapurl>http://renderv318.mappoint.net/render-30/getmap.aspx?key=4483BB03CE3FB25C7E21</mapurl></map><blogs count=\"0\"></blogs></rsp>";
-    private static final String XML_SUCCESS_RESPONSE_STARTS_WITH_EMPTY_SPACES = "      " + XML_SUCCESS_RESPONSE;
+public class ResponseParserTest extends TestCase {
 
     private ResponseParser mParser;
 
@@ -23,10 +13,10 @@ public class ResponseParserTest extends TestCase {
         mParser = new ResponseParserImpl();
     }
 
-    public void testParseBlogMapFailureInvalidXml() {
+    public void testParseInvalidResponseXmlStringGivesBlogMap4JException() {
 
         try {
-            Response response = mParser.parseBlogMap(INVALID_XML);
+            Response response = mParser.parseBlogMap(DataFixture.INVALID_RESPONSE_XML_STRING);
             fail("Test with invalid xml should have failed at this point. " +
                     "Unexpected response: " + response);
         } catch (BlogMap4JException bme) {
@@ -34,10 +24,10 @@ public class ResponseParserTest extends TestCase {
         }
     }
 
-    public void testParseBlogMapFailureXmlResponse() {
+    public void testParseFailureResponseXmlStringGivesBlogMap4JException() {
 
         try {
-            Response response = mParser.parseBlogMap(XML_FAILURE_RESPONSE);
+            Response response = mParser.parseBlogMap(DataFixture.FAILURE_RESPONSE_XML_STRING);
             fail("Test with failure xml should have failed at this point. " +
                     "Unexpected response: " + response);
         } catch (BlogMap4JException bme) {
@@ -45,30 +35,30 @@ public class ResponseParserTest extends TestCase {
         }
     }
 
-    public void testParseBlogMapSuccessXmlResponse() {
+    public void testParseSuccessXmlResponse() {
 
         try {
-            Response response = mParser.parseBlogMap(XML_SUCCESS_RESPONSE);
+            Response response = mParser.parseBlogMap(DataFixture.createResponseXmlString(50));
             assertNotNull(response);
         } catch (BlogMap4JException bme) {
             fail("BlogMap4JException should not occur: " + bme.getMessage());
         }
     }
 
-    public void testParseBlogMapSuccessXmlResponseStartsWithEmptySpaces() {
+    public void testParseSuccessResponseXmlStringPrependedEmptySpaces() {
 
         try {
-            Response response = mParser.parseBlogMap(XML_SUCCESS_RESPONSE_STARTS_WITH_EMPTY_SPACES);
+            Response response = mParser.parseBlogMap("   " + DataFixture.createResponseXmlString(20));
             assertNotNull(response);
         } catch (BlogMap4JException bme) {
             fail("BlogMap4JException should not occur: " + bme.getMessage());
         }
     }
 
-    public void testParseBlogMapSuccessXmlResponseWithoutBlogs() {
+    public void testParseSuccessXmlResponseWithoutAnyBlogs() {
 
         try {
-            Response response = mParser.parseBlogMap(XML_SUCCESS_RESPONSE_WITHOUT_BLOGS);
+            Response response = mParser.parseBlogMap(DataFixture.createResponseXmlString(0));
             assertNotNull(response);
         } catch (BlogMap4JException bme) {
             fail("BlogMap4JException should not occur: " + bme.getMessage());
