@@ -1,11 +1,10 @@
 package com.mbledug.blogmap4j.util;
 
-import junit.framework.TestCase;
-
+import com.mbledug.blogmap4j.BaseTest;
 import com.mbledug.blogmap4j.exception.BlogMap4JException;
 import com.mbledug.blogmap4j.model.Response;
 
-public class ResponseParserTest extends TestCase {
+public class ResponseParserTest extends BaseTest {
 
     private ResponseParser mParser;
 
@@ -39,7 +38,7 @@ public class ResponseParserTest extends TestCase {
 
         try {
             Response response = mParser.parseBlogMap(DataFixture.createResponseXmlString(50));
-            assertNotNull(response);
+            assertResponse(response);
         } catch (BlogMap4JException bme) {
             fail("BlogMap4JException should not occur: " + bme.getMessage());
         }
@@ -49,7 +48,7 @@ public class ResponseParserTest extends TestCase {
 
         try {
             Response response = mParser.parseBlogMap("   " + DataFixture.createResponseXmlString(20));
-            assertNotNull(response);
+            assertResponse(response);
         } catch (BlogMap4JException bme) {
             fail("BlogMap4JException should not occur: " + bme.getMessage());
         }
@@ -59,7 +58,7 @@ public class ResponseParserTest extends TestCase {
 
         try {
             Response response = mParser.parseBlogMap(DataFixture.createResponseXmlString(0));
-            assertNotNull(response);
+            assertResponse(response);
         } catch (BlogMap4JException bme) {
             fail("BlogMap4JException should not occur: " + bme.getMessage());
         }

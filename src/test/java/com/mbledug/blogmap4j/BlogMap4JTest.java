@@ -1,21 +1,12 @@
 package com.mbledug.blogmap4j;
 
-import java.util.Iterator;
-import java.util.List;
-
-import junit.framework.TestCase;
-
 import com.mbledug.blogmap4j.exception.BlogMap4JException;
-import com.mbledug.blogmap4j.model.Blog;
-import com.mbledug.blogmap4j.model.Coordinate;
-import com.mbledug.blogmap4j.model.Location;
-import com.mbledug.blogmap4j.model.Point;
 import com.mbledug.blogmap4j.model.Response;
 import com.mbledug.blogmap4j.util.DataFixture;
 import com.mbledug.blogmap4j.util.ResponseParser;
 import com.mbledug.blogmap4j.util.ServiceManager;
 
-public class BlogMap4JTest extends TestCase {
+public class BlogMap4JTest extends BaseTest {
 
     private BlogMap4J mBlogMap4J;
     private ServiceManager mServiceManager;
@@ -133,27 +124,6 @@ public class BlogMap4JTest extends TestCase {
             assertResponse(response);
         } catch (BlogMap4JException bme) {
             fail("BlogMap4JException should not occur: " + bme.getMessage());
-        }
-    }
-
-    private void assertResponse(Response response) {
-
-        List blogs = response.getBlogs();
-        for (Iterator it = blogs.iterator(); it.hasNext();) {
-
-            Blog blog = (Blog)it.next();
-            assertNotNull(blog);
-
-            Coordinate coordinate = blog.getCoordinate();
-            assertNotNull(coordinate);
-
-            Point start = coordinate.getStart();
-            Point end = coordinate.getEnd();
-            assertNotNull(start);
-            assertNotNull(end);
-
-            Location location = blog.getLocation();
-            assertNotNull(location);
         }
     }
 }
