@@ -62,7 +62,8 @@ public class ServiceManagerImpl implements ServiceManager {
     private HttpMethod mHttpMethod;
 
     /**
-     * Create a ServiceManager instance, initialise HttpClient and HttpMethod.
+     * Create a {@link ServiceManagerImpl} instance, initialise HttpClient and
+     * HttpMethod.
      */
     public ServiceManagerImpl() {
         mHttpClient = new HttpClient();
@@ -70,8 +71,8 @@ public class ServiceManagerImpl implements ServiceManager {
     }
 
     /**
-     * Create a ServiceManager instance with specified HttpClient and
-     * HttpMethod.
+     * Creates a {@link ServiceManagerImpl} instance with specified HttpClient
+     * and HttpMethod.
      * @param httpClient the http client
      * @param httpMethod the http method
      */

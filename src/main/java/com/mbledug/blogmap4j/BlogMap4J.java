@@ -44,12 +44,12 @@ import com.mbledug.blogmap4j.util.ServiceManagerImpl;
  * <p>
  * Usage: simply create an instance of BlogMap4J. For example:
  *   <pre>
- *     BlogMap4J blogMap4J = new BlogMap4J();
- *     Response getBlogMapResponse = blogMap4J.getBlogMap(
+ *     {@link BlogMap4J} blogMap4J = new {@link BlogMap4J}();
+ *     {@link Response} getBlogMapResponse = blogMap4J.getBlogMap(
  *             "http://www.csthota.com/blog/rss.aspx", null, null);
- *     Response searchResponseWithPlace = blogMap4J.search("redmond,wa",
+ *     {@link Response} searchResponseWithPlace = blogMap4J.search("redmond,wa",
  *             null, null, null, null, null, null);
- *     Response searchResponseWithLatLonCount = blogMap4J.search(null,
+ *     {@link Response} searchResponseWithLatLonCount = blogMap4J.search(null,
  *             new Double(47), new Double(-122), null, new Integer(10),
  *             null, null);
  *   </pre>
@@ -73,7 +73,7 @@ public class BlogMap4J {
     private static final String METHOD_SEARCH = "blogmap.search";
 
     /**
-     * ServiceManager to manage method calls.
+     * {@link ServiceManager} to manage method calls.
      */
     private ServiceManager mServiceManager;
 
@@ -83,7 +83,7 @@ public class BlogMap4J {
     private ResponseParser mResponseParser;
 
     /**
-     * Create an instance of BlogMap4J.
+     * Create an instance of {@link BlogMap4J}.
      */
     public BlogMap4J() {
         mServiceManager = new ServiceManagerImpl();
@@ -91,8 +91,8 @@ public class BlogMap4J {
     }
 
     /**
-     * Create an instance of BlogMap4J with specified ServiceManager and
-     * ResponseParser.
+     * Create an instance of {@link BlogMap4J} with specified
+     * {@link ServiceManager} and {@link ResponseParser}.
      * @param serviceManager the service manager
      * @param responseParser the response parser
      */
@@ -129,7 +129,7 @@ public class BlogMap4J {
     }
 
     /**
-     * Retrieve map url and blog details.
+     * Retrieves map url and blog details.
      * @param feed feed url that is registered with BlogMap
      * @param width width of the map image
      * @param height height of the map image
@@ -156,7 +156,7 @@ public class BlogMap4J {
     }
 
     /**
-     * Search for blog details around a place/coordinate.
+     * Searches for blog details around a place/coordinate.
      * When both place and lat/lon are passed, place is considered for
      * searching.
      * Default distance is 50 Kilometer.

@@ -45,7 +45,7 @@ import com.mbledug.blogmap4j.model.Point;
 import com.mbledug.blogmap4j.model.Response;
 
 /**
- * A ResponseParser implementation using Dom4J.
+ * A {@link ResponseParser} implementation using Dom4J.
  * @author Cliffano Subagio
  */
 public class ResponseParserImpl implements ResponseParser {
@@ -77,7 +77,7 @@ public class ResponseParserImpl implements ResponseParser {
     private static final int STAT_FAILURE = 500;
 
     /**
-     * Create a ResponseParser instance.
+     * Create a {@link ResponseParserImpl} instance.
      */
     public ResponseParserImpl() {
     }
@@ -85,7 +85,7 @@ public class ResponseParserImpl implements ResponseParser {
     /**
      * Parse the xml response String using Dom4J.
      * @param xmlString the response String to parse
-     * @return Response object representation of the xml response String
+     * @return {@link Response} object representation of the xml response String
      * @throws BlogMap4JException when there's a failure response from BlogMap
      *             service or there's an error with parsing the xml response
      */
@@ -151,9 +151,9 @@ public class ResponseParserImpl implements ResponseParser {
     }
 
     /**
-     * Create Blog from blog details within blogElement.
+     * Create {@link Blog} from blog details within blogElement.
      * @param blogElement the Element containing the blog details
-     * @return Blog with the details from blogElement
+     * @return {@link Blog} with the details from blogElement
      */
     private Blog getBlogFromElement(final Element blogElement) {
 
@@ -180,9 +180,9 @@ public class ResponseParserImpl implements ResponseParser {
     }
 
     /**
-     * Parse the comma separated coordinates into a Coordinate object.
+     * Parse the comma separated coordinates into a {@link Coordinate} object.
      * @param csv comma separated coordinates in the format of x1,y1,x2,y2
-     * @return Coordinate representation of the csv
+     * @return {@link Coordinate} representation of the csv
      */
     private Coordinate getCoordinateFromCsv(final String csv) {
 

@@ -44,9 +44,9 @@ public class Point {
     private int mY;
 
     /**
-     * Create a Point instance.
-     * @param x the x coordinate
-     * @param y the y coordinate
+     * Creates a {@link Point} instance.
+     * @param x the x value
+     * @param y the y value
      */
     public Point(final int x, final int y) {
         mX = x;
@@ -54,13 +54,15 @@ public class Point {
     }
 
     /**
-     * @return Returns the x.
+     * Returns the x value.
+     * @return the x value
      */
     public final int getX() {
         return mX;
     }
     /**
-     * @return Returns the y.
+     * Returns the y value.
+     * @return the y value
      */
     public final int getY() {
         return mY;

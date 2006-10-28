@@ -47,7 +47,7 @@ public class Response {
     private List mBlogs;
 
     /**
-     * Create a Response instance.
+     * Create a {@link Response} instance.
      * @param mapUrl the url of the map
      * @param blogs the list of Blogs in the map
      */
@@ -57,13 +57,15 @@ public class Response {
     }
 
     /**
-     * @return Returns the blogs.
+     * Returns the list of blogs.
+     * @return the list of blogs
      */
     public final List getBlogs() {
         return mBlogs;
     }
     /**
-     * @return Returns the mapUrl.
+     * Returns the mapUrl.
+     * @return the mapUrl
      */
     public final String getMapUrl() {
         return mMapUrl;

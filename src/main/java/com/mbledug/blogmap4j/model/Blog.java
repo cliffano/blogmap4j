@@ -60,7 +60,7 @@ public class Blog {
     private Location mLocation;
 
     /**
-     * Create a Blog instance.
+     * Creates a {@link Blog} instance.
      * @param id the id of the blog
      * @param name the name of the blog
      * @param xmlUrl the url of the blog's feed
@@ -84,37 +84,43 @@ public class Blog {
     }
 
     /**
-     * @return Returns the coordinate.
+     * Returns the coordinate.
+     * @return the coordinate
      */
     public final Coordinate getCoordinate() {
         return mCoordinate;
     }
     /**
-     * @return Returns the id.
+     * Returns the id.
+     * @return the id
      */
     public final int getId() {
         return mId;
     }
     /**
-     * @return Returns the location.
+     * Returns the location.
+     * @return the location
      */
     public final Location getLocation() {
         return mLocation;
     }
     /**
-     * @return Returns the name.
+     * Returns the name.
+     * @return the name
      */
     public final String getName() {
         return mName;
     }
     /**
-     * @return Returns the url.
+     * Returns the url.
+     * @return the url
      */
     public final String getUrl() {
         return mUrl;
     }
     /**
-     * @return Returns the xmlUrl.
+     * Returns the xmlUrl.
+     * @return the xmlUrl
      */
     public final String getXmlUrl() {
         return mXmlUrl;

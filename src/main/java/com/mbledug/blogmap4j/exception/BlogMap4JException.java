@@ -29,7 +29,7 @@
 package com.mbledug.blogmap4j.exception;
 
 /**
- * Exception within BlogMap4J. Used when the service returns a failure
+ * Exception within {@link BlogMap4J}. Used when the service returns a failure
  * response, or when there's a problem with parsing the xml response string.
  * @author Cliffano Subagio
  */

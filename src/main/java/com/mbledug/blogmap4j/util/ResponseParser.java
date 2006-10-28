@@ -32,8 +32,8 @@ import com.mbledug.blogmap4j.exception.BlogMap4JException;
 import com.mbledug.blogmap4j.model.Response;
 
 /**
- * ResponseParser parses the xml response String retrieved from BlogMap service,
- * and construct a Response object.
+ * {@link ResponseParser} parses the xml response String retrieved from BlogMap
+ * service, and construct a {@link Response} object.
  * @author Cliffano Subagio
  */
 public interface ResponseParser {
@@ -41,7 +41,7 @@ public interface ResponseParser {
     /**
      * Parse the xml response String.
      * @param xmlString the response String to parse
-     * @return Response object representation of the xml response String
+     * @return {@link Response} object representation of the xml response String
      * @throws BlogMap4JException when there's a failure response from BlogMap
      *             service or there's an error with parsing the xml response
      */

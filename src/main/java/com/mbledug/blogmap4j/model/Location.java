@@ -56,7 +56,7 @@ public class Location {
     private String mRegion;
 
     /**
-     * Create a Location instance.
+     * Create a {@link Location} instance.
      * @param latitude the latitude
      * @param longitude the longitude
      * @param city the name of the city
@@ -77,31 +77,36 @@ public class Location {
     }
 
     /**
-     * @return Returns the city.
+     * Returns the city.
+     * @return the city
      */
     public final String getCity() {
         return mCity;
     }
     /**
-     * @return Returns the div.
+     * Returns the div.
+     * @return the div
      */
     public final String getDiv() {
         return mDiv;
     }
     /**
-     * @return Returns the latitude.
+     * Returns the latitude.
+     * @return the latitude
      */
     public final double getLatitude() {
         return mLatitude;
     }
     /**
-     * @return Returns the longitude.
+     * Returns the longitude.
+     * @return the longitude
      */
     public final double getLongitude() {
         return mLongitude;
     }
     /**
-     * @return Returns the region.
+     * Returns the region.
+     * @return the region
      */
     public final String getRegion() {
         return mRegion;

@@ -33,7 +33,8 @@ import java.util.Map;
 import com.mbledug.blogmap4j.exception.BlogMap4JException;
 
 /**
- * ServiceManager manages method call to service provider (i.e. BlogMap).
+ * {@link ServiceManager} manages method call to service provider (i.e.
+ * BlogMap).
  * @author Cliffano Subagio
  */
 public interface ServiceManager {

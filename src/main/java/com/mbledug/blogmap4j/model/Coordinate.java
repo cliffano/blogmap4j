@@ -44,7 +44,7 @@ public class Coordinate {
     private Point mEnd;
 
     /**
-     * Create a Coordinate instance.
+     * Create a {@link Coordinate} instance.
      * @param start start point of the coordinate
      * @param end end point of the coordinate
      */
@@ -54,13 +54,15 @@ public class Coordinate {
     }
 
     /**
-     * @return Returns the end.
+     * Returns the end point.
+     * @return the end point
      */
     public final Point getEnd() {
         return mEnd;
     }
     /**
-     * @return Returns the start.
+     * Returns the start point.
+     * @return the start point
      */
     public final Point getStart() {
         return mStart;
