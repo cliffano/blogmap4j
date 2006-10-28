@@ -4,7 +4,7 @@
     <title>Changes</title>
   </properties>
   <body>
-    <release version="0.3-SNAPSHOT" date="current">
+    <release version="0.3" date="29-10-2006">
       <action type="update" dev="cliffano">
         Refactored unit tests, introduced mock objects. Added constructors to BlogMap4J and ServiceManager.
       </action>

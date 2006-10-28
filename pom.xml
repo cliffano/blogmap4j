@@ -4,7 +4,7 @@
   <groupId>feedmap</groupId>
   <artifactId>blogmap4j</artifactId>
   <packaging>jar</packaging>
-  <version>0.3-SNAPSHOT</version>
+  <version>0.3</version>
   <description>Java API for BlogMap Service APIs http://www.feedmap.net/BlogMap/Services/.</description>
   <inceptionYear>2005</inceptionYear>
   <name>BlogMap4J</name>
