@@ -3,7 +3,7 @@
   <body>
     <menu name="Reference">
       <item name="About" href="/index.html" />
-      <item name="Download" href="/download.html" />
+      <item name="Downloads" href="/downloads.html" />
       <item name="Usage" href="/usage.html" />
     </menu>
     <menu name="Project Info">

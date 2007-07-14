@@ -9,6 +9,10 @@
   <inceptionYear>2005</inceptionYear>
   <name>BlogMap4J</name>
   <url>http://mbledug.com/projects/feedmap/blogmap4j</url>
+  <issueManagement>
+    <system>Google Code Issue</system>
+    <url>http://code.google.com/p/blogmap4j/issues/list</url>
+  </issueManagement>
   <ciManagement>
     <system>continuum</system>
     <url>http://disco-stu:8888/continuum</url>
