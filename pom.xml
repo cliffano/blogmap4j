@@ -113,8 +113,7 @@
   <reporting>
     <plugins>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>changes-maven-plugin</artifactId>
+        <artifactId>maven-changes-plugin</artifactId>
       </plugin>
       <plugin>
         <artifactId>maven-checkstyle-plugin</artifactId>
@@ -126,7 +125,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>1.0-beta-1</version>
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
