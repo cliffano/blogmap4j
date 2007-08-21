@@ -26,3 +26,41 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package com.qoqoa.blogmap4j.util;
+
+import java.util.Map;
+
+/**
+ * {@link ServiceManager} manages method call to service provider (i.e.
+ * BlogMap).
+ * @author Cliffano Subagio
+ */
+public interface ServiceManager {
+
+    /**
+     * Sets proxy details.
+     * @param proxyHost proxy host name
+     * @param proxyPort proxy port number
+     */
+    void setProxy(final String proxyHost, final int proxyPort);
+
+    /**
+     * Sets authenticated proxy details.
+     * @param proxyHost proxy host name
+     * @param proxyPort proxy port number
+     * @param proxyUsername proxy username
+     * @param proxyPassword proxy password
+     */
+    void setProxy(
+            final String proxyHost,
+            final int proxyPort,
+            final String proxyUsername,
+            final String proxyPassword);
+    /**
+     * Create a URL connection and retrieve the response String.
+     * @param url the base url which the params will be added to
+     * @param params the parameters to be added to the url
+     * @return the response String
+     */
+    String execute(final String url, final Map params);
+}

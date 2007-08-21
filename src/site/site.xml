@@ -1,11 +1,6 @@
 <project name="BlogMap4J">
   <publishDate position="left" format="dd-MM-yyyy HH:mm:ss"/>
   <body>
-    <menu name="Reference">
-      <item name="About" href="/index.html" />
-      <item name="Downloads" href="/downloads.html" />
-      <item name="Usage" href="/usage.html" />
-    </menu>
     <menu name="Project Info">
       <item name="Continuous Integration" href="/integration.html" />
       <item name="Dependencies" href="/dependencies.html" />

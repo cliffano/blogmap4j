@@ -4,11 +4,11 @@
   <groupId>feedmap</groupId>
   <artifactId>blogmap4j</artifactId>
   <packaging>jar</packaging>
-  <version>0.3</version>
+  <version>0.4-SNAPSHOT</version>
   <description>Java API for BlogMap Service APIs http://www.feedmap.net/BlogMap/Services/.</description>
   <inceptionYear>2005</inceptionYear>
   <name>BlogMap4J</name>
-  <url>http://mbledug.com/projects/feedmap/blogmap4j</url>
+  <url>http://code.google.com/p/blogmap4j/</url>
   <issueManagement>
     <system>Google Code Issue</system>
     <url>http://code.google.com/p/blogmap4j/issues/list</url>
@@ -20,7 +20,7 @@
       <notifier>
         <type>mail</type>
         <configuration>
-          <address>cliffano@mbledug.com</address>
+          <address>cliffano@qoqoa.com</address>
         </configuration>
       </notifier>
     </notifiers>
@@ -40,10 +40,10 @@
     <developer>
       <id>cliffano</id>
       <name>Cliffano Subagio</name>
-      <email>cliffano@mbledug.com</email>
-      <url>http://mbledug.com/blog</url>
-      <organization>Mbledug</organization>
-      <organizationUrl>http://mbledug.com</organizationUrl>
+      <email>cliffano@qoqoa.com</email>
+      <url>http://qoqoa.com</url>
+      <organization>Qoqoa</organization>
+      <organizationUrl>http://qoqoa.com</organizationUrl>
       <roles>
         <role>Developer</role>
       </roles>
@@ -57,8 +57,8 @@
     </license>
   </licenses>
   <organization>
-    <name>Mbledug</name>
-    <url>http://mbledug.com</url>
+    <name>Qoqoa</name>
+    <url>http://qoqoa.com</url>
   </organization>
   <pluginRepositories>
     <pluginRepository>

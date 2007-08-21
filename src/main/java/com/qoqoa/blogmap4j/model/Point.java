@@ -26,3 +26,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package com.qoqoa.blogmap4j.model;
+
+/**
+ * Representation of a coordinate point with x and y position.
+ * @author Cliffano Subagio
+ */
+public class Point {
+
+    /**
+     * The x-axis position value of the point.
+     */
+    private int mX;
+    /**
+     * The y-axis position value of the point.
+     */
+    private int mY;
+
+    /**
+     * Creates a {@link Point} instance.
+     * @param x the x value
+     * @param y the y value
+     */
+    public Point(final int x, final int y) {
+        mX = x;
+        mY = y;
+    }
+
+    /**
+     * Returns the x value.
+     * @return the x value
+     */
+    public final int getX() {
+        return mX;
+    }
+    /**
+     * Returns the y value.
+     * @return the y value
+     */
+    public final int getY() {
+        return mY;
+    }
+}
