@@ -127,7 +127,6 @@
   #foreach( $menu in $menus )
     #if ( $menu.name )
     <h5>
-      <img src="/images/maven${menu.name.replace(" ", "")}.png" height="16" width="16" alt="$menu.name Icon"/>
       $menu.name
     </h5>
     #end
@@ -271,15 +270,15 @@
     #end
 #end
 
-#set ( $mbledugSite = "http://mbledug.com" )
+#set ( $host = "http://qoqoa.com" )
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <title>$title</title>
     <style type="text/css" media="all">
-      @import url("$mbledugSite/styles/global.css");
+      @import url("$host/styles/global.css");
     </style>
-    <link rel="shortcut icon" href="$mbledugSite/images/favicon.ico"/>
+    <link rel="shortcut icon" href="$host/images/favicon.ico"/>
     #foreach( $author in $authors )
       <meta name="author" content="$author" />
     #end
@@ -295,28 +294,26 @@
     #end
   </head>
   <body>
-    <div class="container">
-      <div id="headertop"></div>
+    <div id="container">
       <div id="header">
-        <a href="$mbledugSite/"><img src="$mbledugSite/images/logo.jpg" height="50" width="130" alt="Mbledug Logo"/></a>
-      </div>
-      <div id="headerbar">
-        <ul>
-          <li><a href="$mbledugSite/blog">Blog</a></li>
-          <li><a href="$mbledugSite/projects">Projects</a></li>
-        </ul>
+	  	<div id="logo">
+	  	  <a href="$host"><img src="$host/images/logo.jpg" height="60" width="76" alt="Qoqoa Logo"/></a>
+	  	</div>
+	  	<div id="nav">
+	  	  <a href="$host/projects/">Projects</a> / BlogMap4J
+	  	</div>
       </div>
       <div id="body">
-        <div id="content">
+        <div id="left" class="content">
           $bodyContent
         </div>
-        <div id="menu">
+        <div id="center" class="bar">
           #mainMenu( $decoration.body.menus )
         </div>
-        <div id="asides">
+        <div id="right" class="bar">
           <p>
             <a href="http://maven.apache.org/" title="Built by Maven" id="poweredBy">
-              <img alt="Built by Maven" src="$mbledugSite/images/projects/maven-feather.png"></img>
+              <img alt="Built by Maven" src="$host/images/projects/maven-feather.png"></img>
             </a>
           </p>
           #publishDate( "left" $decoration.publishDate $decoration.version )
