@@ -300,7 +300,7 @@
 	  	  <a href="$host"><img src="$host/images/logo.jpg" height="60" width="76" alt="Qoqoa Logo"/></a>
 	  	</div>
 	  	<div id="nav">
-	  	  <a href="$host/projects/">Projects</a> / BlogMap4J
+	  	  <a href="$host/projects/">Projects</a> / $project.name
 	  	</div>
       </div>
       <div id="body">
