@@ -14,8 +14,8 @@
     <url>http://code.google.com/p/blogmap4j/issues/list</url>
   </issueManagement>
   <ciManagement>
-    <system>continuum</system>
-    <url>http://disco-stu:8888/continuum</url>
+    <system>hudson</system>
+    <url>http://code.qoqoa.com/ci/hudson/job/blogmap4j/</url>
     <notifiers>
       <notifier>
         <type>mail</type>
@@ -28,7 +28,7 @@
   <distributionManagement>
     <site>
       <id>localhost</id>
-      <url>file:///home/cliffano/dev/apache-tomcat-6.0.13/webapps/mbledug/projects/feedmap/blogmap4j</url>
+      <url>file:///var/www/qoqoa/htdocs/code/reports/feedmap/blogmap4j</url>
     </site>
   </distributionManagement>
   <scm>
@@ -41,7 +41,7 @@
       <id>cliffano</id>
       <name>Cliffano Subagio</name>
       <email>cliffano@qoqoa.com</email>
-      <url>http://qoqoa.com</url>
+      <url>http://blog.qoqoa.com</url>
       <roles>
         <role>Developer</role>
       </roles>
@@ -54,6 +54,10 @@
       <url>LICENSE.txt</url>
     </license>
   </licenses>
+  <organization>
+    <name>Qoqoa</name>
+    <url>http://qoqoa.com</url>
+  </organization>
   <pluginRepositories>
     <pluginRepository>
       <id>codehaus-snapshot-plugins</id>
