@@ -4,7 +4,7 @@
     <title>Changes</title>
   </properties>
   <body>
-    <release version="0.4-SNAPSHOT" date="current">
+    <release version="0.4" date="17-09-2007">
       <action type="update" dev="cliffano">
         Moved usage information to Google Code Wiki.
       </action>
