@@ -15,7 +15,7 @@
   </issueManagement>
   <ciManagement>
     <system>hudson</system>
-    <url>http://code.qoqoa.com/ci/hudson/job/blogmap4j/</url>
+    <url>http://localhost/hudson/job/blogmap4j/</url>
     <notifiers>
       <notifier>
         <type>mail</type>
@@ -146,12 +146,7 @@
         <artifactId>maven-pmd-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <configuration>
-          <templateDirectory>${basedir}/src/site</templateDirectory>
-          <template>custom-site.vm</template>
-        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-surefire-report-plugin</artifactId>
