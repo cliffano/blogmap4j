@@ -29,7 +29,6 @@
 package com.qoqoa.blogmap4j.util;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -62,12 +61,18 @@ public class ServiceManagerImpl implements ServiceManager {
     private HttpMethod mHttpMethod;
 
     /**
-     * Create a {@link ServiceManagerImpl} instance, initialise HttpClient and
-     * HttpMethod.
+     * ServiceManagerHelper.
+     */
+    private BlogMap4JHelper mHelper;
+
+    /**
+     * Create a {@link ServiceManagerImpl} instance, initialise HttpClient,
+     * HttpMethod, and ServiceManagerHelper.
      */
     public ServiceManagerImpl() {
         mHttpClient = new HttpClient();
         mHttpMethod = new GetMethod();
+        mHelper = new BlogMap4JHelper();
     }
 
     /**
@@ -75,12 +80,15 @@ public class ServiceManagerImpl implements ServiceManager {
      * and HttpMethod.
      * @param httpClient the http client
      * @param httpMethod the http method
+     * @param serviceManagerHelper the {@link BlogMap4JHelper}
      */
     public ServiceManagerImpl(
             final HttpClient httpClient,
-            final HttpMethod httpMethod) {
+            final HttpMethod httpMethod,
+            final BlogMap4JHelper serviceManagerHelper) {
         mHttpClient = httpClient;
         mHttpMethod = httpMethod;
+        mHelper = serviceManagerHelper;
     }
 
     /**
@@ -127,7 +135,9 @@ public class ServiceManagerImpl implements ServiceManager {
                     + "due to invalid url: " + url, urie);
         }
         mHttpMethod.setFollowRedirects(true);
-        mHttpMethod.setQueryString(convertMapToNameValuePairArray(params));
+        NameValuePair[] nameValuePairParams = mHelper.
+                convertMapToNameValuePairArray(params);
+        mHttpMethod.setQueryString(nameValuePairParams);
 
         String response = null;
         try {
@@ -146,26 +156,5 @@ public class ServiceManagerImpl implements ServiceManager {
         }
 
         return response;
-    }
-
-    /**
-     * Converts a Map into an array of NameValuePair. The key value entry within
-     * the Map will be converted as name value pair in an array.
-     * @param map the Map to convert
-     * @return an array of NameValuePair with content from the Map
-     */
-    private NameValuePair[] convertMapToNameValuePairArray(
-            final Map map) {
-
-        NameValuePair[] array = new NameValuePair[map.size()];
-        int i = 0;
-        Iterator it = map.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            String name = String.valueOf(entry.getKey());
-            String value = String.valueOf(entry.getValue());
-            array[i++] = new NameValuePair(name, value);
-        }
-        return array;
     }
 }

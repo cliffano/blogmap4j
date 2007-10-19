@@ -4,7 +4,7 @@
   <groupId>feedmap</groupId>
   <artifactId>blogmap4j</artifactId>
   <packaging>jar</packaging>
-  <version>0.4</version>
+  <version>0.5-SNAPSHOT</version>
   <description>Java API for BlogMap Service APIs http://www.feedmap.net/BlogMap/Services/.</description>
   <inceptionYear>2005</inceptionYear>
   <name>BlogMap4J</name>
@@ -83,6 +83,16 @@
       <artifactId>dom4j</artifactId>
       <version>1.6.1</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymockclassextension</artifactId>
+      <version>2.2.2</version>
     </dependency>
     <dependency>
       <groupId>jmock</groupId>
