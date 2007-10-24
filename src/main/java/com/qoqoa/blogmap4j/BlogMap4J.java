@@ -191,4 +191,17 @@ public class BlogMap4J {
                 SERVICE_END_POINT, params);
         return mResponseParser.parseBlogMap(responseString);
     }
+
+    /**
+     * Adds a key value entry to a map only when the value is not null.
+     * @param map the map to add to
+     * @param key the key of the entry to add
+     * @param value the value of the entry to add
+     */
+    private void addKeyValueToMap(
+            final Map map, final Object key, final Object value) {
+        if (value != null) {
+            map.put(key, value);
+        }
+    }
 }

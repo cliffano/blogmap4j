@@ -3,24 +3,22 @@ package com.qoqoa.blogmap4j.model;
 import junit.framework.TestCase;
 
 import org.easymock.classextension.EasyMock;
-import org.easymock.classextension.IMocksControl;
 
 public class CoordinateTest extends TestCase {
 
-	public void testCoordinateKeepsMemberFields() {
+    public void testCoordinateKeepsMemberFields() {
 
-		IMocksControl control = EasyMock.createStrictControl();
-		Point startPoint = (Point) control.createMock(Point.class);
-		Point endPoint = (Point) control.createMock(Point.class);
+        Point startPoint = (Point) EasyMock.createStrictMock(Point.class);
+        Point endPoint = (Point) EasyMock.createStrictMock(Point.class);
 
-		control.replay();
+        EasyMock.replay(new Object[]{startPoint, endPoint});
 
-		Coordinate coordinate = new Coordinate(startPoint, endPoint);
-		assertSame(startPoint, coordinate.getStart());
-		assertSame(endPoint, coordinate.getEnd());
-		assertEquals(startPoint, coordinate.getStart());
-		assertEquals(endPoint, coordinate.getEnd());
+        Coordinate coordinate = new Coordinate(startPoint, endPoint);
+        assertSame(startPoint, coordinate.getStart());
+        assertSame(endPoint, coordinate.getEnd());
+        assertEquals(startPoint, coordinate.getStart());
+        assertEquals(endPoint, coordinate.getEnd());
 
-		control.verify();
-	}
+        EasyMock.verify(new Object[]{startPoint, endPoint});
+    }
 }
