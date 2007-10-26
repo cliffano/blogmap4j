@@ -126,7 +126,7 @@ public class BlogMap4JTest extends TestCase {
 //                    + "Unexpected response: " + response);
 //        }
 //        catch (BlogMap4JException bme) {
-//            // BlogMap4JException is thrown as expected
+//            assertEquals("Invalid input feed.", bme.getMessage());
 //        }
 //    }
 //
@@ -140,7 +140,7 @@ public class BlogMap4JTest extends TestCase {
 //                    + "Unexpected response: " + response);
 //        }
 //        catch (BlogMap4JException bme) {
-//            // BlogMap4JException is thrown as expected
+//            assertEquals("Input string was not in a correct format.", bme.getMessage());
 //        }
 //    }
 //

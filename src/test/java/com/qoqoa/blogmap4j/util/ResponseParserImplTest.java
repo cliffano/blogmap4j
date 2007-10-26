@@ -30,7 +30,7 @@ public class ResponseParserImplTest extends TestCase {
             fail("Test with invalid xml should have failed at this point. " +
                     "Unexpected response: " + response);
         } catch (BlogMap4JException bme) {
-            // BlogMap4JException is thrown as expected
+            assertEquals("Unable to parse response string:\n<foobar>(&#($&(*&#@($&@#</foobar>", bme.getMessage());
         }
     }
 
@@ -41,7 +41,7 @@ public class ResponseParserImplTest extends TestCase {
             fail("Test with failure xml should have failed at this point. " +
                     "Unexpected response: " + response);
         } catch (BlogMap4JException bme) {
-            // BlogMap4JException is thrown as expected
+            assertEquals("Input feed does not exist in blogmap service.", bme.getMessage());
         }
     }
 
