@@ -24,21 +24,21 @@ public class ServiceManagerImplTest extends TestCase {
 
     private HttpClient httpClient;
     private HttpMethod httpMethod;
-    private ServiceManagerImpl serviceManagerImpl;
+    private ServiceManager serviceManager;
     private Map params;
 
     protected void setUp() {
 
         httpClient = (HttpClient) EasyMock.createStrictMock(HttpClient.class);
         httpMethod = (HttpMethod) EasyMock.createStrictMock(HttpMethod.class);
-        serviceManagerImpl = new ServiceManagerImpl(httpClient, httpMethod);
+        serviceManager = new ServiceManagerImpl(httpClient, httpMethod);
         params = new LinkedHashMap();
     }
 
     public void testExecuteFailureWithInvalidServiceUrlGivesBlogMap4JException() {
-        serviceManagerImpl = new ServiceManagerImpl();
+        serviceManager = new ServiceManagerImpl();
         try {
-            serviceManagerImpl.execute("http://@*&^#!&*^$&$", new HashMap());
+            serviceManager.execute("http://@*&^#!&*^$&$", new HashMap());
             fail("Test with invalid service url should have failed at this point.");
         } catch (BlogMap4JException bme) {
             assertEquals("Unable to get xml response string", bme.getMessage());
@@ -59,7 +59,7 @@ public class ServiceManagerImplTest extends TestCase {
 
         EasyMock.replay(new Object[]{httpClient, httpMethod});
 
-        String response = serviceManagerImpl.execute("http://someserviceurl.com", params);
+        String response = serviceManager.execute("http://someserviceurl.com", params);
         assertEquals("some response", response);
 
         EasyMock.verify(new Object[]{httpClient, httpMethod});
@@ -68,7 +68,7 @@ public class ServiceManagerImplTest extends TestCase {
     public void testExecuteFailureWithInvalidUrlGivesBlogMap4JException() {
 
         try {
-            serviceManagerImpl.execute("#&*^&@$#*^#", params);
+            serviceManager.execute("#&*^&@$#*^#", params);
             fail("Test should have failed at this point.");
         } catch (BlogMap4JException bme) {
             assertEquals("Unable to get xml response string due to invalid url: #&*^&@$#*^#", bme.getMessage());
@@ -94,7 +94,7 @@ public class ServiceManagerImplTest extends TestCase {
         EasyMock.replay(new Object[]{httpClient, httpMethod});
 
         try {
-            serviceManagerImpl.execute("http://someserviceurl.com", params);
+            serviceManager.execute("http://someserviceurl.com", params);
             fail("Test should have failed at this point.");
         } catch (BlogMap4JException bme) {
             assertEquals("Unable to get xml response string", bme.getMessage());
@@ -122,8 +122,8 @@ public class ServiceManagerImplTest extends TestCase {
 
         EasyMock.replay(new Object[]{httpClient, httpMethod, hostConfiguration});
 
-        serviceManagerImpl.setProxy("some host", 80);
-        String response = serviceManagerImpl.execute("http://someserviceurl.com", params);
+        serviceManager.setProxy("some host", 80);
+        String response = serviceManager.execute("http://someserviceurl.com", params);
         assertEquals("some response", response);
 
         EasyMock.verify(new Object[]{httpClient, httpMethod, hostConfiguration});
@@ -151,8 +151,8 @@ public class ServiceManagerImplTest extends TestCase {
 
         EasyMock.replay(new Object[]{httpClient, httpMethod, hostConfiguration});
 
-        serviceManagerImpl.setProxy("some host", 80, "someusername", "somepassword");
-        String response = serviceManagerImpl.execute("http://someserviceurl.com", params);
+        serviceManager.setProxy("some host", 80, "someusername", "somepassword");
+        String response = serviceManager.execute("http://someserviceurl.com", params);
         assertEquals("some response", response);
 
         EasyMock.verify(new Object[]{httpClient, httpMethod, hostConfiguration});
