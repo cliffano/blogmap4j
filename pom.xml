@@ -27,8 +27,8 @@
   </ciManagement>
   <distributionManagement>
     <site>
-      <id>localhost</id>
-      <url>file:///var/www/qoqoa/htdocs/code/reports/feedmap/blogmap4j</url>
+      <id>qoqoa</id>
+      <url>sftp://qoqoa.com:2218//var/www/qoqoa/htdocs/code/reports/feedmap/blogmap4j</url>
     </site>
   </distributionManagement>
   <scm>
