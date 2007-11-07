@@ -15,7 +15,7 @@
   </issueManagement>
   <ciManagement>
     <system>hudson</system>
-    <url>http://dobby/hudson/job/blogmap4j/</url>
+    <url>http://dobby:8080/hudson/job/blogmap4j/</url>
     <notifiers>
       <notifier>
         <type>mail</type>
