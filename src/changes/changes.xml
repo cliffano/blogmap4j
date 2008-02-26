@@ -6,6 +6,9 @@
   <body>
     <release version="0.5-SNAPSHOT" date="current">
       <action type="update" dev="cliffano">
+        Removed dom4j usage.
+      </action>
+      <action type="update" dev="cliffano">
         Refactored unit tests, replaced JMock with EasyMock 2.
       </action>
     </release>

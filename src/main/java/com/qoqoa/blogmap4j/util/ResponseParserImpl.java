@@ -28,14 +28,21 @@
  */
 package com.qoqoa.blogmap4j.util;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.CharacterData;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import com.qoqoa.blogmap4j.exception.BlogMap4JException;
 import com.qoqoa.blogmap4j.model.Blog;
@@ -77,9 +84,36 @@ public class ResponseParserImpl implements ResponseParser {
     private static final int STAT_FAILURE = 500;
 
     /**
+     * Document builder.
+     */
+    private DocumentBuilder mDocumentBuilder;
+
+    /**
      * Create a {@link ResponseParserImpl} instance.
      */
     public ResponseParserImpl() {
+        this(DocumentBuilderFactory.newInstance());
+
+    }
+
+    /**
+     * Create a {@link ResponseParserImpl} with specified
+     * document builder factory.
+     * @param documentBuilderFactory document builder factory
+     */
+    public ResponseParserImpl(
+            final DocumentBuilderFactory documentBuilderFactory) {
+        documentBuilderFactory.setValidating(false);
+        documentBuilderFactory.setIgnoringElementContentWhitespace(true);
+        documentBuilderFactory.setIgnoringComments(true);
+        documentBuilderFactory.setCoalescing(true);
+        documentBuilderFactory.setNamespaceAware(false);
+        try {
+            mDocumentBuilder = documentBuilderFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            throw new BlogMap4JException(
+                    "Unable to create DocumentBuilder.", e);
+        }
     }
 
     /**
@@ -91,34 +125,36 @@ public class ResponseParserImpl implements ResponseParser {
 
         String validXmlString = cleanXmlProlog(xmlString);
 
-        Document doc = null;
+        Document doc;
         try {
-            doc = DocumentHelper.parseText(validXmlString);
-        } catch (DocumentException de) {
+            doc = mDocumentBuilder.parse(new InputSource(
+                    new StringReader(validXmlString)));
+        } catch (IOException ioe) {
             throw new BlogMap4JException("Unable to parse response string:\n"
-                    + xmlString, de);
+                    + xmlString, ioe);
+        } catch (SAXException saxe) {
+            throw new BlogMap4JException("Unable to parse response string:\n"
+                    + xmlString, saxe);
         }
 
-        Element root = doc.getRootElement();
+        Element root = doc.getDocumentElement();
 
-        int stat = Integer.parseInt(root.attribute("stat").getStringValue());
+        int stat = Integer.parseInt(root.getAttribute("stat"));
         // capture error message when there's a failure
         if (stat == STAT_FAILURE) {
-            String errorMessage = root.element("err").attribute("message").
-                    getStringValue();
+            Element err = (Element) root.getElementsByTagName("err").item(0);
+            String errorMessage = getAttributeValue(err, "message");
             throw new BlogMap4JException(errorMessage);
         }
 
-        Element map = root.element("map");
-        String mapUrl = map.element("mapurl").getStringValue();
+        Element map = (Element) root.getElementsByTagName("map").item(0);
+        String mapUrl = getChildElementValue(map, "mapurl");
 
         List blogsList = new ArrayList();
-
-        Element blogs = root.element("blogs");
-
-        for (Iterator it = blogs.elementIterator(); it.hasNext();) {
-
-            Element blogElement = (Element) it.next();
+        NodeList blogs = ((Element) root.getElementsByTagName("blogs").item(0)).
+                getElementsByTagName("blog");
+        for (int i = 0; i < blogs.getLength(); i++) {
+            Element blogElement = (Element) blogs.item(i);
             Blog blog = getBlogFromElement(blogElement);
             blogsList.add(blog);
         }
@@ -149,26 +185,27 @@ public class ResponseParserImpl implements ResponseParser {
 
     /**
      * Create {@link Blog} from blog details within blogElement.
-     * @param blogElement the Element containing the blog details
+     * @param blogElement the Node containing the blog details
      * @return {@link Blog} with the details from blogElement
      */
     private Blog getBlogFromElement(final Element blogElement) {
 
-        int id = Integer.parseInt(blogElement.attribute("id").getStringValue());
-        String name = blogElement.attribute("name").getStringValue();
-        String xmlUrl = blogElement.attribute("xmlurl").getStringValue();
-        String url = blogElement.attribute("url").getStringValue();
-        String csvCoordinate = blogElement.attribute("coords").getStringValue();
+        int id = Integer.parseInt(getAttributeValue(blogElement, "id"));
+        String name = getAttributeValue(blogElement, "name");
+        String xmlUrl = getAttributeValue(blogElement, "xmlurl");
+        String url = getAttributeValue(blogElement, "url");
+        String csvCoordinate = getAttributeValue(blogElement, "coords");
         Coordinate coordinate = getCoordinateFromCsv(csvCoordinate);
 
-        Element locationElement = blogElement.element("location");
+        Element locationElement = (Element)
+                blogElement.getElementsByTagName("location").item(0);
         double latitude = Double.parseDouble(
-                locationElement.element("latitude").getStringValue());
+                getChildElementValue(locationElement, "latitude"));
         double longitude = Double.parseDouble(
-                locationElement.element("longitude").getStringValue());
-        String city = locationElement.element("city").getStringValue();
-        String div = locationElement.element("div").getStringValue();
-        String region = locationElement.element("region").getStringValue();
+                getChildElementValue(locationElement, "longitude"));
+        String city = getChildElementValue(locationElement, "city");
+        String div = getChildElementValue(locationElement, "div");
+        String region = getChildElementValue(locationElement, "region");
         Location location = new Location(
                 latitude, longitude, city, div, region);
 
@@ -190,5 +227,34 @@ public class ResponseParserImpl implements ResponseParser {
                 Integer.parseInt(coordinateArray [END_Y_INDEX]));
 
         return new Coordinate(start, end);
+    }
+
+    /**
+     * Get attribute String value.
+     * @param element the element
+     * @param attributeName the name of element's attribute
+     * @return attribute String value
+     */
+    private String getAttributeValue(
+            final Element element, final String attributeName) {
+        return element.getAttributes().getNamedItem(attributeName).
+            getNodeValue();
+    }
+
+    /**
+     * Get the String value of a child element.
+     * @param parentElement the parent element
+     * @param childElementName the name of child element
+     * @return the String value of child element
+     */
+    private String getChildElementValue(
+            final Element parentElement, final String childElementName) {
+        String value = null;
+        Element childElement = (Element) parentElement.getElementsByTagName(
+                childElementName).item(0);
+        if (childElement.getFirstChild() != null) {
+            value = ((CharacterData) childElement.getFirstChild()).getData();
+        }
+        return value;
     }
 }

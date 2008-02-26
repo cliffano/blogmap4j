@@ -1,8 +1,16 @@
 package com.qoqoa.blogmap4j.util;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import junit.framework.TestCase;
+
+import org.easymock.classextension.EasyMock;
+import org.xml.sax.InputSource;
 
 import com.qoqoa.blogmap4j.exception.BlogMap4JException;
 import com.qoqoa.blogmap4j.model.Blog;
@@ -11,7 +19,7 @@ import com.qoqoa.blogmap4j.model.Response;
 public class ResponseParserImplTest extends TestCase {
 
     private static final String SUCCESS_RESPONSE =
-        "<rsp stat=\"200\"><map><mapurl>http://somemapurl.com</mapurl></map>"
+        "<?xml version=\"1.0\" encoding=\"utf-8\"?><rsp stat=\"200\"><map><mapurl>http://somemapurl.com</mapurl></map>"
         + "<blogs count=\"2\">"
         + "<blog id=\"1\" name=\"Some Name 1\" xmlurl=\"http://somefeedurl1.com\" url=\"http://someblogurl1.com\" coords=\"109,19,125,35\"><location><latitude>47.6785794635701</latitude><longitude>-122.13084477543</longitude><city>Redmond</city><div>Washington</div><region>United States</region></location></blog>"
         + "<blog id=\"2\" name=\"Some Name 2\" xmlurl=\"http://somefeedurl2.com\" url=\"http://someblogurl2.com\" coords=\"29,69,115,38\"><location><latitude>43.35701</latitude><longitude>-12.13043</longitude><city>Carnegie</city><div>Melbourne</div><region>Australia</region></location></blog>"
@@ -43,6 +51,53 @@ public class ResponseParserImplTest extends TestCase {
         } catch (BlogMap4JException bme) {
             assertEquals("Input feed does not exist in blogmap service.", bme.getMessage());
         }
+    }
+
+    public void testParseFailureWithDocumentBuilderFactoryThrowingParserConfigurationExceptionGivesBlogMap4JException() throws Exception {
+
+        DocumentBuilderFactory documentBuilderFactory = (DocumentBuilderFactory) EasyMock.createStrictMock(DocumentBuilderFactory.class);
+        documentBuilderFactory.setValidating(false);
+        documentBuilderFactory.setIgnoringElementContentWhitespace(true);
+        documentBuilderFactory.setIgnoringComments(true);
+        documentBuilderFactory.setCoalescing(true);
+        documentBuilderFactory.setNamespaceAware(false);
+
+        EasyMock.expect(documentBuilderFactory.newDocumentBuilder()).andThrow(new ParserConfigurationException("dummy parser configuration error message"));
+
+        EasyMock.replay(new Object[]{documentBuilderFactory});
+        try {
+            new ResponseParserImpl(documentBuilderFactory);
+            fail("BlogMap4JException should've been thrown.");
+        } catch (BlogMap4JException bme) {
+            assertEquals("Unable to create DocumentBuilder.", bme.getMessage());
+        }
+        EasyMock.verify(new Object[]{documentBuilderFactory});
+    }
+
+    public void testParseFailureWithDocumentBuilderThrowingIOExceptionGivesBlogMap4JException() throws Exception {
+        DocumentBuilder documentBuilder = (DocumentBuilder) EasyMock.createStrictMock(DocumentBuilder.class);
+
+        DocumentBuilderFactory documentBuilderFactory = (DocumentBuilderFactory) EasyMock.createStrictMock(DocumentBuilderFactory.class);
+        documentBuilderFactory.setValidating(false);
+        documentBuilderFactory.setIgnoringElementContentWhitespace(true);
+        documentBuilderFactory.setIgnoringComments(true);
+        documentBuilderFactory.setCoalescing(true);
+        documentBuilderFactory.setNamespaceAware(false);
+
+        EasyMock.expect(documentBuilderFactory.newDocumentBuilder()).andReturn(documentBuilder);
+
+        documentBuilder.parse((InputSource) EasyMock.isA(InputSource.class));
+        EasyMock.expectLastCall().andThrow(new IOException("dummy IO error message"));
+
+        EasyMock.replay(new Object[]{documentBuilderFactory, documentBuilder});
+        parser = new ResponseParserImpl(documentBuilderFactory);
+        try {
+            parser.parseBlogMap("dummy xml string");
+            fail("BlogMap4JException should've been thrown.");
+        } catch (BlogMap4JException bme) {
+            assertEquals("Unable to parse response string:\ndummy xml string", bme.getMessage());
+        }
+        EasyMock.verify(new Object[]{documentBuilderFactory, documentBuilder});
     }
 
     public void testParseSuccessXmlResponse() {
@@ -90,5 +145,12 @@ public class ResponseParserImplTest extends TestCase {
     public void testParseSuccessXmlResponseWithoutAnyBlogs() {
         Response response = parser.parseBlogMap("<rsp stat=\"200\"><map><mapurl>http://somemapurl.com</mapurl></map><blogs count=\"2\"></blogs></rsp>");
         assertEquals(0, response.getBlogs().size());
+    }
+
+    public void testParseSuccessXmlResponseWithBlogNotHavingDivValue() {
+        Response response = parser.parseBlogMap("<rsp stat=\"200\"><map><mapurl>http://somemapurl.com</mapurl></map><blogs count=\"2\"><blog id=\"1\" name=\"Some Name 1\" xmlurl=\"http://somefeedurl1.com\" url=\"http://someblogurl1.com\" coords=\"109,19,125,35\"><location><latitude>47.6785794635701</latitude><longitude>-122.13084477543</longitude><city>Redmond</city><div/><region>United States</region></location></blog></blogs></rsp>");
+        assertEquals(1, response.getBlogs().size());
+        Blog blog = (Blog) response.getBlogs().get(0);
+        assertNull(blog.getLocation().getDiv());
     }
 }
