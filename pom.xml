@@ -15,7 +15,7 @@
   </issueManagement>
   <ciManagement>
     <system>hudson</system>
-    <url>http://dobby:8080/hudson/job/blogmap4j/</url>
+    <url>http://qoqoa.dnsdojo.org:8080/hudson/job/blogmap4j/</url>
     <notifiers>
       <notifier>
         <type>mail</type>
@@ -28,7 +28,7 @@
   <distributionManagement>
     <site>
       <id>qoqoa</id>
-      <url>sftp://qoqoa.com:2218//var/www/qoqoa/htdocs/code/feedmap/blogmap4j/report</url>
+      <url>scp://qoqoa.com:2218/var/www/qoqoa.com/code/feedmap/blogmap4j/report</url>
     </site>
   </distributionManagement>
   <scm>
