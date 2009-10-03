@@ -26,3 +26,36 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package com.cliffano.blogmap4j.exception;
+
+/**
+ * Exception within BlogMap4J. Used when the service returns a failure
+ * response, or when there's a problem with parsing the xml response string.
+ * @author Cliffano Subagio
+ */
+public class BlogMap4JException extends RuntimeException {
+
+    /**
+     * Serial version UID because Exception implements Serializable.
+     */
+    private static final long serialVersionUID = 1;
+
+    /**
+     * Create an exception with an error message.
+     * @param errorMessage the erros message of the exception
+     */
+    public BlogMap4JException(final String errorMessage) {
+        super(errorMessage);
+    }
+
+    /**
+     * Create an exception with an error message, and pass the cause.
+     * @param errorMessage the error message of the exception
+     * @param cause a Throwable that's causing this exception
+     */
+    public BlogMap4JException(
+            final String errorMessage,
+            final Throwable cause) {
+        super(errorMessage, cause);
+    }
+}

@@ -26,3 +26,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package com.cliffano.blogmap4j.util;
+
+import com.cliffano.blogmap4j.model.Response;
+
+/**
+ * {@link ResponseParser} parses the xml response String retrieved from BlogMap
+ * service, and construct a {@link Response} object.
+ * @author Cliffano Subagio
+ */
+public interface ResponseParser {
+
+    /**
+     * Parse the xml response String.
+     * @param xmlString the response String to parse
+     * @return {@link Response} object representation of the xml response String
+     */
+    Response parseBlogMap(final String xmlString);
+}

@@ -11,6 +11,9 @@
       <action type="update" dev="cliffano">
         Refactored unit tests, replaced JMock with EasyMock 2.
       </action>
+      <action type="update" dev="cliffano">
+        Changed package names from com.qoqoa.* to com.cliffano.*
+      </action>
     </release>
     <release version="0.4" date="17-09-2007">
       <action type="update" dev="cliffano">
