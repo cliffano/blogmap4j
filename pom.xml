@@ -28,7 +28,7 @@
   <distributionManagement>
     <site>
       <id>ayame</id>
-      <url>scp://cliffano@cliffano.com:2218/var/www/cliffano.com/studio/feedmap/blogmap4j/report</url>
+      <url>scp://cliffano@cliffano.com:2218/var/www/cliffano.com/studio/feedmap/blogmap4j</url>
     </site>
   </distributionManagement>
   <scm>
