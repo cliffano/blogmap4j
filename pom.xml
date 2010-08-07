@@ -15,7 +15,7 @@
   </issueManagement>
   <ciManagement>
     <system>hudson</system>
-    <url>http://tools.cliffano.com/hudson/job/blogmap4j/</url>
+    <url>http://tools.cliffano.com/hudson/job/feedmap-blogmap4j/</url>
     <notifiers>
       <notifier>
         <type>mail</type>
