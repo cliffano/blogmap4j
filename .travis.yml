@@ -1,0 +1,4 @@
+language: java
+before_script:
+  - export MAVEN_OPTS="-Xmx512m -XX:MaxPermSize=512m"
+script: "mvn clean test package site:site"
