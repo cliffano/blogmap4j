@@ -1,4 +1,4 @@
-BlogMap4J [![http://travis-ci.org/cliffano/blogmap4j](https://secure.travis-ci.org/cliffano/blogmap4j.png?branch=master)](http://travis-ci.org/cliffano/blogmap4j)
+BlogMap4J [![http://travis-ci.org/cliffano/blogmap4j](https://img.shields.io/travis/cliffano/blogmap4j.svg)](http://travis-ci.org/cliffano/blogmap4j)
 ------
 
 BlogMap4J is a Java library for [BlogMap Service APIs](http://www.feedmap.net/BlogMap/Services/). 
